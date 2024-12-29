@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->dateTime('deadline');
             $table->foreignId('in_team')->constrained('teams')->onDelete('cascade');
-            $table->boolean('completed')->default(false);
+            $table->enum('status', ['ongoing', 'completed', 'canceled'])->default('ongoing');
             $table->timestamps();
         });
     }
