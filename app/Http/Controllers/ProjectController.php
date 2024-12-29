@@ -16,6 +16,15 @@ class ProjectController extends Controller
         $authUser = auth()->user();
         $user = User::find($authUser->id);
         $projects = $user->projects()->with('checklists')->get();
+        // count completed checklists
+        // projects have many checklists
+        // completed checklist are checklists that have all it's subchecklist's is_completed = true
+        $projects->map(function ($project) {
+            $project->completed_checklists = $project->checklists->filter(function ($checklist) {
+                return $checklist->subChecklists->count() === $checklist->subChecklists->where('is_completed', true)->count();
+            })->count();
+            return $project;
+        });
 
         return response()->json([
             'data' => $projects
@@ -37,8 +46,8 @@ class ProjectController extends Controller
     }
 
     // add new checklist
-    public function addChecklist(StoreChecklistRequest $request, int $id) {
-        $project = Project::find($id);
+    public function addChecklist(StoreChecklistRequest $request) {
+        $project = Project::find($request->project_id);
         $project->checklists()->create($request->all());
 
         return response()->json([
@@ -47,8 +56,8 @@ class ProjectController extends Controller
     }
 
     // add new sub-checklist
-    public function addSubChecklist(StoreSubChecklistRequest $request, int $id) {
-        $checklist = Checklist::find($id);
+    public function addSubChecklist(StoreSubChecklistRequest $request) {
+        $checklist = Checklist::find($request->checklist_id);
         $checklist->subChecklists()->create($request->all());
 
         return response()->json([

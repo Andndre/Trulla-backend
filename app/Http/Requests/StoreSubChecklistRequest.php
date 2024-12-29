@@ -13,7 +13,7 @@ class StoreSubChecklistRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,7 @@ class StoreSubChecklistRequest extends FormRequest
     {
         return [
             'checklist_id' => 'required|exists:checklists,id',
-            'name' => 'required|string',
-            'is_completed' => 'required|boolean'
+            'text' => 'required|string',
         ];
     }
 }

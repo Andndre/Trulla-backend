@@ -11,8 +11,7 @@ class Checklist extends Model
 
     protected $fillable = [
         'project_id',
-        'name',
-        'is_completed'
+        'judul',
     ];
 
     public function project()

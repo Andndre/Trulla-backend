@@ -25,8 +25,7 @@ class StoreChecklistRequest extends FormRequest
     {
         return [
             'project_id' => 'required|exists:projects,id',
-            'name' => 'required|string',
-            'is_completed' => 'required|boolean'
+            'judul' => 'required|string',
         ];
     }
 }
