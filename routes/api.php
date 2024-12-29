@@ -29,6 +29,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'project'], function () {
         Route::get('/', [ProjectController::class, 'index']);
         Route::post('/store_private', [ProjectController::class, 'storePrivate']);
+
+        // Checklist
+        Route::post('/{id}/add_checklist', [ProjectController::class, 'addChecklist']);
+        Route::post('/{id}/add_sub_checklist', [ProjectController::class, 'addSubChecklist']);
     });
 });
 
