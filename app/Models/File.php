@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'project_id',
+        'filename',
+        'path'
+    ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

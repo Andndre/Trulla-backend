@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nama');
             $table->foreignId('pemilik')->constrained('users')->onDelete('cascade');
             $table->string('icon_path');
-            $table->string('link_invite');
             $table->timestamps();
         });
     }

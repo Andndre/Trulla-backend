@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Home;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,16 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [Home::class, 'home']);
     Route::get('/auth/user', [AuthController::class, 'user']);
     Route::get('/auth/logout', [AuthController::class, 'logout']);
+
+    // Halaman Home
+    Route::get('/home_project', [Home::class, 'projects']);
+    Route::get('/notifications', [Home::class, 'notifications']);
+
+    // Halaman Project
+    Route::group(['prefix' => 'project'], function () {
+        Route::get('/', [ProjectController::class, 'index']);
+        Route::post('/store_private', [ProjectController::class, 'storePrivate']);
+    });
 });
 
 Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function () {

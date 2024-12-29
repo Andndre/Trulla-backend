@@ -32,4 +32,14 @@ class Home extends Controller
             'status' => 'Not Connected'
         ]);
     }
+
+    public function projects()
+    {
+        $user = auth()->user();
+        $projects = $user->projects;
+
+        return response()->json([
+            'data' => $projects
+        ]);
+    }
 }

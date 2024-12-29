@@ -41,4 +41,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // relations
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'user_joined_teams');
+    }
+
+    // projects
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'user_id');
+    }
+
+    // teams
+    public function ownedTeams()
+    {
+        return $this->hasMany(Team::class, 'pemilik');
+    }
 }
