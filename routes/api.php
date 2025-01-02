@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [Home::class, 'home']);
     Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::post('/auth/user', [AuthController::class, 'updateProfile']);
     Route::get('/auth/logout', [AuthController::class, 'logout']);
 
     // Halaman Home

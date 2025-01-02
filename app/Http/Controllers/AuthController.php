@@ -59,4 +59,27 @@ class AuthController extends Controller
             'message' => 'Successfully logged out!'
         ]);
     }
+
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required',
+            'password' => 'nullable|min:8',
+            'password_confirmation' => 'nullable|same:password'
+        ]);
+
+        $authUser = $request->user();
+        $user = User::find($authUser->id);
+
+        if ($request->password) {
+            $request->merge(['password' => bcrypt($request->password)]);
+            $user->update($request->only('name', 'password'));
+        } else {
+            $user->update($request->only('name'));
+        }
+
+        return response()->json([
+            'message' => 'Successfully updated profile!'
+        ]);
+    }
 }
