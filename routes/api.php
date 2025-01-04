@@ -31,6 +31,11 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
         Route::get('/', [ProjectController::class, 'index']);
         Route::post('/store_private', [ProjectController::class, 'storePrivate']);
 
+        // detail
+        Route::get('/{id}', [ProjectController::class, 'detail']);
+        // update deskripsi project
+        Route::put('/{id}/updateDeskripsi', [ProjectController::class, 'updateDeskripsiProject']);
+
         // Checklist
         Route::post('/add_checklist', [ProjectController::class, 'addChecklist']);
         Route::post('/add_sub_checklist', [ProjectController::class, 'addSubChecklist']);

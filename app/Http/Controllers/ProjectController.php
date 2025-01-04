@@ -9,6 +9,7 @@ use App\Models\Checklist;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -63,5 +64,45 @@ class ProjectController extends Controller
         return response()->json([
             'message' => 'Sub-checklist created'
         ], 201);
+    }
+
+    public function detail($id) {
+        $authUser = auth()->user();
+        $users = User::find($authUser->id);
+
+        $project = $users->projects()
+            ->with('checklists')
+            ->with('checklists.subChecklists')
+            ->with('notes')->where('id', $id)
+            ->first();
+
+        // count completed checklists
+        // projects have many checklists
+        // completed checklist are checklists that have all it's subchecklist's is_completed = true
+        $project->completed_checklists = $project->checklists->filter(function ($checklist) {
+            return $checklist->subChecklists->count() === $checklist->subChecklists->where('is_completed', true)->count();
+        })->count();
+
+        // count completed subchecklists
+        // for each checklist add count completed subchecklist
+        for ($i = 0; $i < $project->checklists->count(); $i++) {
+            $project->checklists[$i]->completed_subchecklists = $project->checklists[$i]->subChecklists->where('is_completed', true)->count();
+        }
+
+        return response()->json([
+            'data' => $project
+        ]);
+    }
+
+    public function updateDeskripsiProject(Request $request, int $id) {
+        $authUser = auth()->user();
+        $user = User::find($authUser->id);
+        $project = $user->projects()->find($id);
+        $project->update([
+            'deskripsi' => $request->deskripsi
+        ]);
+        return response()->json([
+            'data' => $project
+        ]);
     }
 }
