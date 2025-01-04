@@ -105,4 +105,16 @@ class ProjectController extends Controller
             'data' => $project
         ]);
     }
+
+    public function updateDeadlineProject(Request $request, int $id) {
+        $authUser = auth()->user();
+        $user = User::find($authUser->id);
+        $project = $user->projects()->find($id);
+        $project->update([
+            'deadline' => $request->deadline
+        ]);
+        return response()->json([
+            'data' => $project
+        ]);
+    }
 }
