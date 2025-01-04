@@ -16,16 +16,10 @@ class ProjectController extends Controller
     public function index() {
         $authUser = auth()->user();
         $user = User::find($authUser->id);
-        $projects = $user->projects()->with('checklists')->get();
-        // count completed checklists
-        // projects have many checklists
-        // completed checklist are checklists that have all it's subchecklist's is_completed = true
-        $projects->map(function ($project) {
-            $project->completed_checklists = $project->checklists->filter(function ($checklist) {
-                return $checklist->subChecklists->count() === $checklist->subChecklists->where('is_completed', true)->count();
-            })->count();
-            return $project;
-        });
+        $projects = $user->projects()
+            ->with('checklists')
+            ->with('checklists.subChecklists')
+            ->get();
 
         return response()->json([
             'data' => $projects
@@ -76,18 +70,6 @@ class ProjectController extends Controller
             ->with('notes')->where('id', $id)
             ->first();
 
-        // count completed checklists
-        // projects have many checklists
-        // completed checklist are checklists that have all it's subchecklist's is_completed = true
-        $project->completed_checklists = $project->checklists->filter(function ($checklist) {
-            return $checklist->subChecklists->count() === $checklist->subChecklists->where('is_completed', true)->count();
-        })->count();
-
-        // count completed subchecklists
-        // for each checklist add count completed subchecklist
-        for ($i = 0; $i < $project->checklists->count(); $i++) {
-            $project->checklists[$i]->completed_subchecklists = $project->checklists[$i]->subChecklists->where('is_completed', true)->count();
-        }
 
         return response()->json([
             'data' => $project
