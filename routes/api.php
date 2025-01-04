@@ -38,8 +38,10 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
         Route::post('/{id}/updateDeadline', [ProjectController::class, 'updateDeadlineProject']);
 
         // Checklist
-        Route::post('/add_checklist', [ProjectController::class, 'addChecklist']);
-        Route::post('/add_sub_checklist', [ProjectController::class, 'addSubChecklist']);
+        Route::post('/add_checklist/{id}', [ProjectController::class, 'addChecklist']);
+        Route::post('/add_sub_checklist/{id}', [ProjectController::class, 'addSubChecklist']);
+
+        Route::post('/update_sub_checklist/{id}', [ProjectController::class, 'updateSubChecklist']);
     });
 });
 

@@ -24,7 +24,6 @@ class StoreChecklistRequest extends FormRequest
     public function rules()
     {
         return [
-            'project_id' => 'required|exists:projects,id',
             'judul' => 'required|string',
         ];
     }
