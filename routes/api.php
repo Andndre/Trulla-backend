@@ -33,6 +33,11 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
 
         // detail
         Route::get('/{id}', [ProjectController::class, 'detail']);
+        Route::get('/{id}/delete', [ProjectController::class, 'delete']);
+
+        // delete checklist
+        Route::get('/delete_checklist/{checklist_id}', [ProjectController::class, 'deleteChecklist']);
+
         // update deskripsi project
         Route::post('/{id}/updateDeskripsi', [ProjectController::class, 'updateDeskripsiProject']);
         Route::post('/{id}/updateDeadline', [ProjectController::class, 'updateDeadlineProject']);

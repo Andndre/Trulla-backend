@@ -122,4 +122,24 @@ class ProjectController extends Controller
             'data' => $subChecklist,
         ]);
     }
+
+    public function delete(Request $request, int $id)
+    {
+        $authUser = auth()->user();
+        $user = User::find($authUser->id);
+        $project = $user->projects()->find($id);
+        $project->delete();
+        return response()->json([
+            'data' => $project,
+        ]);
+    }
+
+    public function deleteChecklist(Request $request, int $id)
+    {
+        $checklist = Checklist::find($id);
+        $checklist->delete();
+        return response()->json([
+            'data' => $checklist,
+        ]);
+    }
 }
