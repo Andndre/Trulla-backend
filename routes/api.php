@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [Home::class, 'home']);
     Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::post('/auth/user', [AuthController::class, 'updateProfile']);
     Route::get('/auth/logout', [AuthController::class, 'logout']);
 
     // Halaman Home
@@ -30,9 +31,24 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
         Route::get('/', [ProjectController::class, 'index']);
         Route::post('/store_private', [ProjectController::class, 'storePrivate']);
 
+        // detail
+        Route::get('/{id}', [ProjectController::class, 'detail']);
+        Route::get('/{id}/delete', [ProjectController::class, 'delete']);
+
+        // update checklist
+        Route::post('/update_checklist/{id}', [ProjectController::class, 'updateChecklist']);
+        // delete checklist
+        Route::get('/delete_checklist/{checklist_id}', [ProjectController::class, 'deleteChecklist']);
+
+        // update deskripsi project
+        Route::post('/{id}/updateDeskripsi', [ProjectController::class, 'updateDeskripsiProject']);
+        Route::post('/{id}/updateDeadline', [ProjectController::class, 'updateDeadlineProject']);
+
         // Checklist
-        Route::post('/add_checklist', [ProjectController::class, 'addChecklist']);
-        Route::post('/add_sub_checklist', [ProjectController::class, 'addSubChecklist']);
+        Route::post('/add_checklist/{id}', [ProjectController::class, 'addChecklist']);
+        Route::post('/add_sub_checklist/{id}', [ProjectController::class, 'addSubChecklist']);
+
+        Route::post('/update_sub_checklist/{id}', [ProjectController::class, 'updateSubChecklist']);
     });
 });
 

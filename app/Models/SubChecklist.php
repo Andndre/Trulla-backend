@@ -12,6 +12,7 @@ class SubChecklist extends Model
     protected $fillable = [
         'checklist_id',
         'text',
+        'completed',
     ];
 
     public function checklist()
