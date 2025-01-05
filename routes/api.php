@@ -35,6 +35,8 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
         Route::get('/{id}', [ProjectController::class, 'detail']);
         Route::get('/{id}/delete', [ProjectController::class, 'delete']);
 
+        // update checklist
+        Route::post('/update_checklist/{id}', [ProjectController::class, 'updateChecklist']);
         // delete checklist
         Route::get('/delete_checklist/{checklist_id}', [ProjectController::class, 'deleteChecklist']);
 

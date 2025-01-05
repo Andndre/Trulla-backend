@@ -61,14 +61,17 @@ class ProjectController extends Controller
     }
 
     // add new sub-checklist
-    public function addSubChecklist(StoreSubChecklistRequest $request)
+    public function addSubChecklist(Request $request, int $id)
     {
-        $checklist = Checklist::find($request->checklist_id);
-        $checklist->subChecklists()->create($request->all());
+        $request->validate([
+            'text' => 'required|string',
+        ]);
+        $checklist = Checklist::find($id);
+        $subChecklist = $checklist->subChecklists()->create($request->all());
 
         return response()->json(
             [
-                'message' => 'Sub-checklist created',
+                'data' => $subChecklist,
             ],
             201,
         );
@@ -138,6 +141,17 @@ class ProjectController extends Controller
     {
         $checklist = Checklist::find($id);
         $checklist->delete();
+        return response()->json([
+            'data' => $checklist,
+        ]);
+    }
+
+    public function updateChecklist(Request $request, int $id)
+    {
+        $checklist = Checklist::find($id);
+        $checklist->update([
+            'judul' => $request->judul,
+        ]);
         return response()->json([
             'data' => $checklist,
         ]);
