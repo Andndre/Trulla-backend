@@ -22,10 +22,6 @@ Route::group(['prefix' => '/', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/auth/user', [AuthController::class, 'updateProfile']);
     Route::get('/auth/logout', [AuthController::class, 'logout']);
 
-    // Halaman Home
-    Route::get('/home_project', [Home::class, 'projects']);
-    Route::get('/notifications', [Home::class, 'notifications']);
-
     // Halaman Project
     Route::group(['prefix' => 'project'], function () {
         Route::get('/', [ProjectController::class, 'index']);
